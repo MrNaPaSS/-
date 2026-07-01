@@ -32,9 +32,9 @@
   .sub{opacity:.75;font-size:15px;margin-bottom:26px;max-width:320px;line-height:1.4}
   .btn{display:inline-block;background:#229ED9;color:#fff;text-decoration:none;
     font-size:18px;font-weight:600;padding:16px 30px;border-radius:14px;min-width:240px;
-    box-shadow:0 6px 20px rgba(34,158,217,.35)}
+    box-shadow:0 6px 20px rgba(34,158,217,.35);cursor:pointer}
   .btn:active{transform:translateY(1px)}
-  .hint{margin-top:18px;font-size:13px;opacity:.6;max-width:300px;line-height:1.45}
+  .hint{margin-top:18px;font-size:13px;opacity:.6;max-width:320px;line-height:1.45}
 </style>
 </head>
 <body>
@@ -48,36 +48,56 @@
 
 <script>
   (function () {
+    var BOT = 'moneyhoney7_bot';
+    var TG_PACKAGE = 'org.telegram.messenger';
+
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
     var payload = ref ? ('ref_' + ref) : '';
+    var qWeb = payload ? ('?start=' + encodeURIComponent(payload)) : '';
+    var qApp = payload ? ('&start=' + encodeURIComponent(payload)) : '';
 
-    var webUrl = 'https://t.me/moneyhoney7_bot' + (payload ? ('?start=' + encodeURIComponent(payload)) : '');
-    var appUrl = 'tg://resolve?domain=moneyhoney7_bot' + (payload ? ('&start=' + encodeURIComponent(payload)) : '');
+    var webUrl = 'https://t.me/' + BOT + qWeb;
+    var tgUrl  = 'tg://resolve?domain=' + BOT + qApp;
+    // Android: intent:// с пакетом Telegram + web-фолбэк (открывает приложение из webview надёжнее всего).
+    var intentUrl = 'intent://resolve?domain=' + BOT + qApp +
+      '#Intent;scheme=tg;package=' + TG_PACKAGE +
+      ';S.browser_fallback_url=' + encodeURIComponent(webUrl) + ';end';
+
+    var ua = navigator.userAgent || '';
+    var isAndroid = /Android/i.test(ua);
+    var isIOS = /iPhone|iPad|iPod/i.test(ua);
+    var inApp = /FBAN|FBAV|FB_IAB|Instagram|Messenger|Line/i.test(ua);
+
+    function openTelegram() {
+      if (isAndroid) {
+        // intent:// сам откроет Telegram, а если его нет - уйдёт на browser_fallback_url.
+        window.location.href = intentUrl;
+        return;
+      }
+      // iOS и прочее: пробуем нативную схему, затем web-фолбэк.
+      try { window.location.href = tgUrl; } catch (_) {}
+      setTimeout(function () { window.location.href = webUrl; }, 700);
+    }
 
     var go = document.getElementById('go');
     go.setAttribute('href', webUrl);
-
-    // Открытие по тапу: сначала пробуем приложение (tg://), затем web как фолбэк.
     go.addEventListener('click', function (e) {
       e.preventDefault();
-      try { window.location.href = appUrl; } catch (_) {}
-      setTimeout(function () { window.location.href = webUrl; }, 600);
+      openTelegram();
     });
 
-    // Встроенный браузер Facebook/Instagram ломает авто-редирект в Telegram.
-    var ua = navigator.userAgent || '';
-    var inApp = /FBAN|FBAV|FB_IAB|Instagram|Messenger|Line/i.test(ua);
-
     if (inApp) {
-      // Не редиректим сами - просим тап (навигация по жесту работает надёжнее).
+      // Встроенный браузер Instagram/Facebook: не редиректим сами - открываем по тапу.
       document.getElementById('spin').style.display = 'none';
       document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
-      document.getElementById('hint').textContent =
-        'Если Telegram не открылся - нажмите ⋯ вверху и выберите "Открыть в браузере", затем повторите.';
+      var tip = isIOS
+        ? 'Если Telegram не открылся - нажмите значок "..." справа вверху и выберите "Открыть во внешнем браузере", затем нажмите кнопку снова.'
+        : 'Если Telegram не открылся - нажмите "⋮" справа вверху и выберите "Открыть в Chrome", затем нажмите кнопку снова.';
+      document.getElementById('hint').textContent = tip;
     } else {
       // Обычный браузер: авто-переход + кнопка как запасной вариант.
-      setTimeout(function () { window.location.href = webUrl; }, 1200);
+      setTimeout(openTelegram, 1200);
     }
   })();
 </script>

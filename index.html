@@ -65,7 +65,7 @@
 
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
-    var setupMode = params.get('setup') === '1'; // режим привязки FB-события (без авто-редиректа)
+    var setupMode = true; // ВРЕМЕННО: авто-редирект off, кнопка АКТИВНА для настройки события. ВЕРНУТЬ: params.get('setup') === '1'
     // Реферальная ссылка в приоритете; для рекламного трафика передаём клик-идентификатор.
     var payload = ref ? ('ref_' + ref) : ('c_' + FB_CID);
     var qWeb = payload ? ('?start=' + encodeURIComponent(payload)) : '';
@@ -100,15 +100,14 @@
       e.preventDefault();
       // Клик по кнопке = событие Contact (браузерное, до утечки в TG, с fbc/fbp и тем же external_id).
       try { fbq('track', 'Contact'); } catch (_) {}
-      if (setupMode) return; // в режиме настройки не уводим со страницы
-      openTelegram();
+      openTelegram(); // кнопка всегда рабочая (в т.ч. в режиме настройки)
     });
 
     if (setupMode) {
-      // Режим привязки FB-события (?setup=1): без авто-редиректа, кнопка просто висит.
+      // Режим настройки: авто-редирект отключён, но кнопка рабочая (открывает Telegram по клику).
       document.getElementById('spin').style.display = 'none';
-      document.getElementById('sub').textContent = 'Режим настройки: привяжите событие Contact к этой кнопке';
-      document.getElementById('hint').textContent = 'Временный режим ?setup=1, авто-переход отключён.';
+      document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
+      document.getElementById('hint').textContent = '';
     } else if (inApp) {
       // Встроенный браузер Instagram/Facebook: не редиректим сами - открываем по тапу.
       document.getElementById('spin').style.display = 'none';

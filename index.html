@@ -7,12 +7,24 @@
 
 <!-- Meta Pixel -->
 <script>
+  // Клик-идентификатор: одно и то же значение уходит в браузерный пиксель (external_id)
+  // и в deep-link бота (start=c_<cid>). По нему FB сшивает рекламный клик с событиями бота.
+  var FB_CID = (function () {
+    try {
+      var a = new Uint8Array(8);
+      (window.crypto || window.msCrypto).getRandomValues(a);
+      return Array.prototype.map.call(a, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+    } catch (_) {
+      return (Date.now().toString(36) + Math.random().toString(36).slice(2, 10)).slice(0, 16);
+    }
+  })();
+
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
   document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '988255423559722');
+  fbq('init', '988255423559722', { external_id: FB_CID });
   fbq('track', 'PageView');
 </script>
 <noscript>
@@ -53,7 +65,8 @@
 
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
-    var payload = ref ? ('ref_' + ref) : '';
+    // Реферальная ссылка в приоритете; для рекламного трафика передаём клик-идентификатор.
+    var payload = ref ? ('ref_' + ref) : ('c_' + FB_CID);
     var qWeb = payload ? ('?start=' + encodeURIComponent(payload)) : '';
     var qApp = payload ? ('&start=' + encodeURIComponent(payload)) : '';
 

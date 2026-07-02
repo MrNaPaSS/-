@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Trading Academy</title>
+<title>NMNH - Trading Academy</title>
 
 <!-- Meta Pixel -->
 <script>
@@ -33,29 +33,69 @@
 </noscript>
 
 <style>
-  html,body{margin:0;height:100%;background:#0f1115;color:#fff;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
-  .spin{width:26px;height:26px;border:3px solid rgba(255,255,255,.25);
-    border-top-color:#229ED9;border-radius:50%;animation:s 1s linear infinite;margin-bottom:22px}
-  @keyframes s{to{transform:rotate(360deg)}}
-  .logo{font-size:22px;font-weight:700;margin-bottom:8px}
-  .sub{opacity:.75;font-size:15px;margin-bottom:26px;max-width:320px;line-height:1.4}
-  .btn{display:inline-block;background:#229ED9;color:#fff;text-decoration:none;
-    font-size:18px;font-weight:600;padding:16px 30px;border-radius:14px;min-width:240px;
-    box-shadow:0 6px 20px rgba(34,158,217,.35);cursor:pointer}
+  :root{--bg:#0b0d12;--text:#f4f6f9;--muted:rgba(244,246,249,.62);
+    --accent:#2aabee;--accent2:#1e88d4;--line:rgba(255,255,255,.07)}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(600px 400px at 50% -10%,rgba(42,171,238,.16),transparent 65%)}
+  .wrap{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;padding:32px 24px}
+  .brand{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:3px;
+    text-transform:uppercase;color:var(--muted);margin-bottom:22px;font-weight:600}
+  .brand::before,.brand::after{content:"";width:26px;height:1px;background:var(--line)}
+  h1{font-size:27px;line-height:1.22;margin:0 0 10px;max-width:340px;font-weight:800;
+    letter-spacing:-.3px}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),#7cc9f5);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:15px;line-height:1.55;margin:0 0 30px;max-width:320px}
+  .list{display:flex;flex-direction:column;gap:0;margin:0 0 30px;max-width:340px;width:100%;
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015))}
+  .item{display:flex;align-items:center;gap:14px;padding:15px 18px;text-align:left}
+  .item + .item{border-top:1px solid var(--line)}
+  .item svg{flex:0 0 22px;stroke:var(--accent);opacity:.95}
+  .item .txt{font-size:14.5px;line-height:1.4;color:var(--text)}
+  .btn{display:block;width:100%;max-width:340px;color:#fff;text-decoration:none;
+    font-size:17px;font-weight:700;padding:17px 20px;border-radius:14px;letter-spacing:.2px;
+    background:linear-gradient(180deg,var(--accent),var(--accent2));
+    box-shadow:0 10px 30px rgba(42,171,238,.28),inset 0 1px 0 rgba(255,255,255,.18)}
   .btn:active{transform:translateY(1px)}
-  .hint{margin-top:18px;font-size:13px;opacity:.6;max-width:320px;line-height:1.45}
+  .note{margin-top:13px;font-size:13px;color:var(--muted)}
+  .hint{margin-top:16px;font-size:12.5px;color:var(--muted);max-width:320px;line-height:1.45;opacity:.8}
+  .proof{display:flex;align-items:center;gap:8px;margin-top:26px;font-size:12.5px;color:var(--muted)}
+  .dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;
+    box-shadow:0 0 8px rgba(61,220,132,.7)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="spin" id="spin"></div>
-  <div class="logo">Trading Academy</div>
-  <div class="sub" id="sub">Открываем Telegram...</div>
-  <a class="btn" id="go" href="https://t.me/moneyhoney7_bot" rel="noopener">Открыть Telegram</a>
+  <div class="brand">NMNH · Trading Academy</div>
+  <h1>Навчись торгувати <span class="grad">за системою</span></h1>
+  <p class="sub">Закрита академія в Telegram. Доступ відкривається одразу після переходу - безкоштовно</p>
+
+  <div class="list">
+    <div class="item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+      <span class="txt">Власний софт та індикатори на TradingView</span>
+    </div>
+    <div class="item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+      <span class="txt">Лайв-сесії та щоденні розбори угод</span>
+    </div>
+    <div class="item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="txt">Спільнота трейдерів і підтримка ментора</span>
+    </div>
+  </div>
+
+  <a class="btn" id="go" href="https://t.me/moneyhoney7_bot" rel="noopener">Отримати доступ в Telegram</a>
+  <div class="note">Після відкриття Telegram натисніть «Start» у боті</div>
   <div class="hint" id="hint"></div>
+
+  <div class="proof"><span class="dot"></span>Понад 1300 учасників вже в академії</div>
 </div>
 
 <script>
@@ -65,7 +105,6 @@
 
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
-    var setupMode = params.get('setup') === '1'; // режим настройки (?setup=1): без авто-редиректа, кнопка активна
     // Реферальная ссылка в приоритете; для рекламного трафика передаём клик-идентификатор.
     var payload = ref ? ('ref_' + ref) : ('c_' + FB_CID);
     var qWeb = payload ? ('?start=' + encodeURIComponent(payload)) : '';
@@ -85,11 +124,9 @@
 
     function openTelegram() {
       if (isAndroid) {
-        // intent:// сам откроет Telegram, а если его нет - уйдёт на browser_fallback_url.
         window.location.href = intentUrl;
         return;
       }
-      // iOS и прочее: пробуем нативную схему, затем web-фолбэк.
       try { window.location.href = tgUrl; } catch (_) {}
       setTimeout(function () { window.location.href = webUrl; }, 700);
     }
@@ -98,19 +135,16 @@
     go.setAttribute('href', webUrl);
     go.addEventListener('click', function (e) {
       e.preventDefault();
-      // Клик по кнопке = событие Contact (браузерное, до утечки в TG, с fbc/fbp и тем же external_id).
+      // Клик по кнопке = событие Contact (браузерное, до перехода в TG, с fbc/fbp и тем же external_id).
       try { fbq('track', 'Contact'); } catch (_) {}
-      openTelegram(); // кнопка всегда рабочая (в т.ч. в режиме настройки)
+      openTelegram();
     });
 
-    // Авто-редиректа нет вообще: in-app браузеры (IG/FB) ломаются на нём (белый экран).
-    // Переход только по тапу на кнопку - работает надёжно во всех браузерах.
-    document.getElementById('spin').style.display = 'none';
-    document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
+    // Авто-редиректа нет: in-app браузеры (IG/FB) ломаются на нём. Переход только по тапу.
     if (inApp) {
       var tip = isIOS
-        ? 'Если Telegram не открылся - нажмите значок "..." справа вверху и выберите "Открыть во внешнем браузере", затем нажмите кнопку снова.'
-        : 'Если Telegram не открылся - нажмите "⋮" справа вверху и выберите "Открыть в Chrome", затем нажмите кнопку снова.';
+        ? 'Якщо Telegram не відкрився - натисніть "..." зверху і оберіть "Відкрити у зовнішньому браузері", потім натисніть кнопку ще раз.'
+        : 'Якщо Telegram не відкрився - натисніть "⋮" зверху і оберіть "Відкрити в Chrome", потім натисніть кнопку ще раз.';
       document.getElementById('hint').textContent = tip;
     }
   })();

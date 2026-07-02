@@ -103,22 +103,15 @@
       openTelegram(); // кнопка всегда рабочая (в т.ч. в режиме настройки)
     });
 
-    if (setupMode) {
-      // Режим настройки: авто-редирект отключён, но кнопка рабочая (открывает Telegram по клику).
-      document.getElementById('spin').style.display = 'none';
-      document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
-      document.getElementById('hint').textContent = '';
-    } else if (inApp) {
-      // Встроенный браузер Instagram/Facebook: не редиректим сами - открываем по тапу.
-      document.getElementById('spin').style.display = 'none';
-      document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
+    // Авто-редиректа нет вообще: in-app браузеры (IG/FB) ломаются на нём (белый экран).
+    // Переход только по тапу на кнопку - работает надёжно во всех браузерах.
+    document.getElementById('spin').style.display = 'none';
+    document.getElementById('sub').textContent = 'Нажмите кнопку, чтобы войти в Telegram';
+    if (inApp) {
       var tip = isIOS
         ? 'Если Telegram не открылся - нажмите значок "..." справа вверху и выберите "Открыть во внешнем браузере", затем нажмите кнопку снова.'
         : 'Если Telegram не открылся - нажмите "⋮" справа вверху и выберите "Открыть в Chrome", затем нажмите кнопку снова.';
       document.getElementById('hint').textContent = tip;
-    } else {
-      // Обычный браузер: авто-переход + кнопка как запасной вариант.
-      setTimeout(openTelegram, 1200);
     }
   })();
 </script>
